@@ -25,7 +25,7 @@ under the License.
   <!-- for more information, see the documentation of this POM: http://maven.apache.org/pom/asf/ -->
   <groupId>org.apache</groupId>
   <artifactId>apache</artifactId>
-  <version>22-SNAPSHOT</version>
+  <version>22-mdg1</version>
   <packaging>pom</packaging>
 
   <name>The Apache Software Foundation</name>
@@ -60,23 +60,18 @@ under the License.
   </mailingLists>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-apache-parent.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-apache-parent.git</developerConnection>
-    <url>https://github.com/apache/maven-apache-parent/tree/${project.scm.tag}</url>
+    <connection>scm:git:ssh://git@github.com/mdg-private/maven-apache-parent.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/mdg-private/maven-apache-parent.git</developerConnection>
+    <url>https://github.com/mdg-private/maven-apache-parent.git</url>
     <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
     <repository>
-      <id>apache.releases.https</id>
-      <name>Apache Release Distribution Repository</name>
-      <url>https://repository.apache.org/service/local/staging/deploy/maven2</url>
+      <id>tmpmvn</id>
+      <name>/tmp/mvn</name>
+      <url>file:///tmp/mvn</url>
     </repository>
-    <snapshotRepository>
-      <id>apache.snapshots.https</id>
-      <name>${distMgmtSnapshotsName}</name>
-      <url>${distMgmtSnapshotsUrl}</url>
-    </snapshotRepository>
   </distributionManagement>
 
   <properties>
@@ -425,49 +420,6 @@ under the License.
                 </goals>
               </execution>
             </executions>
-          </plugin>
-          <!-- We want to sign the artifact, the POM, and all attached artifacts -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-release-artifacts</id>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- calculate checksums of source release for Apache dist area -->
-          <plugin>
-            <groupId>net.nicoulaj.maven.plugins</groupId>
-            <artifactId>checksum-maven-plugin</artifactId>
-            <version>1.7</version>
-            <executions>
-              <execution>
-                <id>source-release-checksum</id>
-                <goals>
-                  <goal>files</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <algorithms>
-                <algorithm>SHA-512</algorithm>
-              </algorithms>
-              <csvSummary>false</csvSummary>
-              <fileSets>
-                <fileSet>
-                  <directory>${project.build.directory}</directory>
-                  <includes>
-                    <include>${project.artifactId}-${project.version}-source-release.zip</include>
-                    <include>${project.artifactId}-${project.version}-source-release.tar*</include>
-                  </includes>
-                </fileSet>
-              </fileSets>
-              <failIfNoFiles>false</failIfNoFiles><!-- usually, no file to do checksum: don't consider error -->
-            </configuration>
           </plugin>
         </plugins>
       </build>
